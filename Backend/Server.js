@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const connectionDB = require('./Config/db')
 const dotenv = require('dotenv')
+// const User = require('./Model/User')
 dotenv.config();
 
 const app = express();
@@ -9,7 +10,9 @@ const app = express();
 // moddleware 
 app.use(express.json());
 
+//Mongodb connection
 connectionDB()
+
 
 PORT = process.env.PORT || 3000 ;
 
