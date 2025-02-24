@@ -14,7 +14,7 @@ app.use(express.json());
 //Mongodb connection
 connectionDB()
 
-app.use('/userApi',userRouter)
+app.use('/user',userRouter)
 
 PORT = process.env.PORT || 3000 ;
 
