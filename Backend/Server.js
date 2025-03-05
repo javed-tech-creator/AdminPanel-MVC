@@ -1,15 +1,17 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const cors = require('cors')
 const connectionDB = require('./Config/db')
 const dotenv = require('dotenv')
-const userRouter = require('./Routes/userRouter')
+const userRouter = require('./Routes/AdminRouter')
 // const User = require('./Model/User')
 dotenv.config();
 
 const app = express();
 
-// moddleware 
+// middleware 
 app.use(express.json());
+app.use(cors());
 
 //Mongodb connection
 connectionDB()

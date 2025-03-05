@@ -1,6 +1,6 @@
-const User = require('../Model/User')
+const User = require('../Model/AdminModel')
 const bcrypt = require('bcrypt')
-
+const jwt = require('jsonwebtoken')
 //signup user api
 const signupUser = async(req, res) => {
   try {
@@ -18,6 +18,7 @@ const signupUser = async(req, res) => {
     password:hashedPassword 
   })
   const Data = await newUser.save();
+
   res.status(201).json({message:'User Signup Succcessfully',Data})
 
 } catch (error) {
@@ -33,18 +34,26 @@ const loginUser = async(req,res)=>{
   try {
     const {email,password} = req.body
 
-    const isEmail = await User.findOne({email})
-    if(!isEmail){
+    const user = await User.findOne({email})
+    if(!user){
       return res.status(404).json({message:'User Email Not Found'})
     }
     
-    const isMatchPassword = await bcrypt.compare(password,isEmail.password)
+    const isMatchPassword = await bcrypt.compare(password,user.password)
 
     if(!isMatchPassword){
       return res.status(400).json({message:'Password are Incorrect'})
     }
-  
-    res.status(201).json({message:'Login Successfull'})
+    
+    const token = jwt.sign(
+      {userId:user._id,
+        email:user.email
+       },
+       process.env.SECRET_KEY,
+       {expiresIn:"1h"}
+    )
+
+    res.status(201).json({message:'Login Successfull',token})
 
   } catch (error) {
     res.status(500).json({message:'Internal Network Error During login',error})
