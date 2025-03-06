@@ -1,19 +1,40 @@
 import { useState } from "react";
-import { Home, Settings, Menu, X, LogOut, Image, ShoppingBag } from "lucide-react";
+import { Home, Settings, Menu, X, LogOut, Image, ShoppingBag, MenuIcon } from "lucide-react";
 import SliderImage from "./Dashboard-Menu-Pages/SliderImage";
 import ProductDetail from "./Dashboard-Menu-Pages/ProductDetail";
 import HomeDash from "./Dashboard-Menu-Pages/HomeDash";
-import HeaderNavbar from "./HeaderBar/HeaderNavbar"
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 export default function Dashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeState,setActiveState] = useState("Home") 
 
+  const navigate = useNavigate();
 
- 
+
+  const handleLogout = async () => {
+  
+     // Show confirmation dialog
+     const result = await Swal.fire({
+      title: 'Are You Sure?',
+      text: 'This action will Logged Out.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Log Out!',
+    });  
+  
+    if (result.isConfirmed) {
+      localStorage.removeItem("DashboardToken"); // Remove token
+      navigate("/login"); // Redirect to login
+    }
+  }
+
   return (
-    <div className="flex h-screen bg-gradient-to-r from-gray-300 to-gray-200">
+    <div className="flex min-h-screen bg-gradient-to-r from-gray-300 to-gray-200">
     {/* Sidebar */}
 <div className={`fixed inset-y-0 left-0 w-64 bg-white/80 backdrop-blur-lg p-5 shadow-2xl  transition-transform transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:block`}>
   <div className="flex justify-between items-center mb-6">
@@ -59,7 +80,17 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col lg:ml-64">
 
        {/* Top Navigation */}
-      <HeaderNavbar />
+       <header className="bg-gray-700 shadow-md p-8 flex items-center justify-between  lg:px-8">
+          <button className="lg:hidden text-white" onClick={() => setSidebarOpen(true)}>
+            <MenuIcon className="w-6 h-6" />
+          </button>
+          <h1 className="text-lg font-semibold text-white">Dashboard</h1>
+          {/* Logout Button */}
+          <button className="flex items-center space-x-2 text-red-600 hover:text-red-400 font-medium text-xl cursor-pointer" onClick={()=>handleLogout()}>
+            <LogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </header>
 
         {/* Dashboard Content */}
         <main>
