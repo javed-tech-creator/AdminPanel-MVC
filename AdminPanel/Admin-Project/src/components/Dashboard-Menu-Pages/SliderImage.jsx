@@ -159,14 +159,14 @@ onClick={handleAddForm}>
 </button>
 
 <div className="p-6 mt-15">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {sliderImage.length > 0 ? (
           sliderImage.map((slider) => (
-            <div key={slider._id} className="border p-4 rounded-lg shadow-md hover:scale-105 duration-300">
+            <div key={slider._id} className="border p-4 rounded-lg shadow-md ">
               <img
                 src={`http://localhost:3000/uploads/${slider.image_url}`}
                 alt={slider.image_title}
-                className="w-full h-40 object-cover rounded-lg"
+                className="w-full h-80 object-cover rounded-lg"
               />
               <h3 className="mt-2 text-lg font-semibold flex justify-between">
                 <span>{slider.image_title}</span>

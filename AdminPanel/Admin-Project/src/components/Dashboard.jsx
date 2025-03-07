@@ -5,6 +5,7 @@ import ProductDetail from "./Dashboard-Menu-Pages/ProductDetail";
 import HomeDash from "./Dashboard-Menu-Pages/HomeDash";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
+import SettingsPage from "./Dashboard-Menu-Pages/SettingsPage";
 
 export default function Dashboard() {
 
@@ -34,7 +35,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-r from-gray-300 to-gray-200">
+    <div className="flex min-h-screen bg-gradient-to-r from-gray-300 to-gray-200 ">
     {/* Sidebar */}
 <div className={`fixed inset-y-0 left-0 w-64 bg-white/80 backdrop-blur-lg p-5 shadow-2xl  transition-transform transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:block`}>
   <div className="flex justify-between items-center mb-6">
@@ -105,6 +106,10 @@ export default function Dashboard() {
         
         {activeState === "Products-Details" && (
          <ProductDetail/> 
+       )}
+
+       {activeState === "Settings" && (
+        <SettingsPage />
        )}
        </main>
 
