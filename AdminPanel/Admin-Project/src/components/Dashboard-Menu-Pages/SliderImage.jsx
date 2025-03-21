@@ -169,7 +169,7 @@ onClick={handleAddForm}>
           sliderImage.map((slider) => (
             <div key={slider._id} className="border p-4 rounded-lg shadow-md ">
               <img
-                src={`http://localhost:3000/uploads/${slider.image_url}`}
+                src={`${VITE_BACKEND_URL}/uploads/${slider.image_url}`}
                 alt={slider.image_title}
                 className="w-full h-80 object-cover rounded-lg"
               />

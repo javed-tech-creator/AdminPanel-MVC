@@ -164,7 +164,7 @@ onClick={itemAdd}>
   fetchedData.map((product, index) => (
     <div key={index} className=" shadow-lg rounded-2xl border p-4 ">
       <img 
-        src={`http://localhost:3000/products/${product.product_image}`} 
+        src={`${VITE_BACKEND_URL}/products/${product.product_image}`} 
         alt={product.product_name} 
         className="w-full h-96 object-cover rounded-lg" 
       />
