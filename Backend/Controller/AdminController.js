@@ -1,5 +1,5 @@
 const User = require('../Model/AdminModel')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 //signup user api
 const signupUser = async(req, res) => {
