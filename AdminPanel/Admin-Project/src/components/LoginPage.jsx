@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const LoginPage = ()=> {
+  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+
 const navigate = useNavigate();
 
 const [formData,setFormData] = useState({
@@ -23,7 +25,7 @@ const [formData,setFormData] = useState({
    e.preventDefault();
 try {
  
-  const response = await axios.post('http://localhost:3000/user/login',formData)
+  const response = await axios.post(`${VITE_BACKEND_URL}/user/login`,formData)
   
   console.log(response)
   console.log("Login Token is :- ",response.data.token)

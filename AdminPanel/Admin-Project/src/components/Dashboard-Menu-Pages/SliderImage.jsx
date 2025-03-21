@@ -2,7 +2,12 @@ import { Edit, Pencil, Plus, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import Swal from "sweetalert2"
+
+import process from "process";
 const SliderImage = () => {
+
+  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+
 
   const [sliderForm,isSliderForm] = useState(false)
   const [formData,setFormData] = useState({
@@ -31,12 +36,12 @@ const SliderImage = () => {
    try {
     let response
     if(currentId){
-      response = await axios.put(`http://localhost:3000/slider/update/${currentId}`,formData,{
+      response = await axios.put(`${VITE_BACKEND_URL}/slider/update/${currentId}`,formData,{
         headers:{"Content-Type":"multipart/form-data"}
       })
 
     }else{
-     response = await axios.post('http://localhost:3000/slider/save',formData,{
+     response = await axios.post(`${VITE_BACKEND_URL}/slider/save`,formData,{
       headers:{"Content-Type":"multipart/form-data"}
     })
   }
@@ -69,7 +74,7 @@ const SliderImage = () => {
   }
   const fetchedSliderImages = async()=>{
 try {
-   const response = await axios.get('http://localhost:3000/slider/get');
+   const response = await axios.get(`${VITE_BACKEND_URL}/slider/get`);
 
    setSliderImage(response.data.data)
   
@@ -97,7 +102,7 @@ try {
           });  
         
           if (result.isConfirmed) {
-            const response = await axios.delete(`http://localhost:3000/slider/delete/${userid}`)
+            const response = await axios.delete(`${VITE_BACKEND_URL}/slider/delete/${userid}`)
 
             if(response.status >= 200 && response.status < 300){
 

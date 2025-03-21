@@ -5,7 +5,8 @@ import axios from 'axios';
 
 const ProductDetail = () => {
 
-  
+  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+
   const [productForm,setProductForm] = useState(false)
   const [formData,setFormData] = useState({
     product_name:"",
@@ -34,7 +35,7 @@ const ProductDetail = () => {
 
   const fetchedProductData = async()=>{
     try {
-      const response= await axios.get('http://localhost:3000/product/all')
+      const response= await axios.get(`${VITE_BACKEND_URL}/product/all`)
       setFetchedData(response.data);
 
     } catch (error) {
@@ -51,11 +52,11 @@ const ProductDetail = () => {
    try {
     let response;
     if(currentId){
-      response = await axios.put(`http://localhost:3000/product/update/${currentId}`,formData,{
+      response = await axios.put(`${VITE_BACKEND_URL}/product/update/${currentId}`,formData,{
         headers:{"Content-Type":"multipart/form-data"}
       })
     }else{
-      response = await axios.post('http://localhost:3000/product/add',formData,{
+      response = await axios.post(`${VITE_BACKEND_URL}/product/add`,formData,{
         headers:{"Content-Type":"multipart/form-data"}
       })
     }
@@ -128,7 +129,7 @@ const ProductDetail = () => {
         
           if (result.isConfirmed) {
 
-      const response = await axios.delete(`http://localhost:3000/product/delete/${userid}`)
+      const response = await axios.delete(`${VITE_BACKEND_URL}/product/delete/${userid}`)
 
       if(response.status >=200 && response.status <300){
         Swal.fire({

@@ -4,6 +4,8 @@ import Swal from 'sweetalert2'
 import { Link, useNavigate } from 'react-router-dom'
 const SignupPage = () => {
 
+  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+
   const navigate = useNavigate();
   const [formData,setFormData] = useState({
     name:"",
@@ -25,7 +27,7 @@ const SignupPage = () => {
   //  console.log(formData);
    try {
 
-    const data = await axios.post('http://localhost:3000/user/signup',formData)
+    const data = await axios.post(`${VITE_BACKEND_URL}/user/signup`,formData)
 
     if(data.status >= 200 && data.status < 300){
       Swal.fire({
