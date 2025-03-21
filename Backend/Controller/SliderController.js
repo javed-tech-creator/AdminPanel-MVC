@@ -21,6 +21,7 @@ try {
 }
 }
 
+
 const getSlider = async(req,res)=>{
   try {
     const data = await sliderimage.find();

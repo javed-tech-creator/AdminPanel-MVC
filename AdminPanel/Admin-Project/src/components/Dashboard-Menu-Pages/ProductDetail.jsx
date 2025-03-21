@@ -165,7 +165,7 @@ onClick={itemAdd}>
       <img 
         src={`http://localhost:3000/products/${product.product_image}`} 
         alt={product.product_name} 
-        className="w-full h-48 object-cover rounded-lg" 
+        className="w-full h-96 object-cover rounded-lg" 
       />
       <div className="mt-4">
         <h2 className="text-lg font-semibold">{product.product_name}</h2>

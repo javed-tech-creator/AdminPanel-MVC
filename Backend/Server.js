@@ -7,6 +7,8 @@ const userRouter = require('./Routes/AdminRouter')
 const sliderRouter = require('./Routes/SliderRouter')
 const ProductRouter = require('./Routes/ProductRouter')
 const path = require('path')
+const CartItemsRouter = require('./Routes/CartItemsRoutes')
+
 // const User = require('./Model/User')
 dotenv.config();
 
@@ -24,6 +26,7 @@ connectionDB()
 app.use('/user',userRouter)
 app.use('/slider',sliderRouter)
 app.use('/product',ProductRouter)
+app.use('/cart',CartItemsRouter)
 
 PORT = process.env.PORT || 3000 ;
 
