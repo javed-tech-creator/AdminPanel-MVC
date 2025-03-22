@@ -49,37 +49,55 @@ const getProducts = async (req, res) => {
   }
 };
 
-const updateProduct = async (req, res) => {
-  try {
-    const updateData = req.body;
 
-    const product = await Product.findById(req.params.id);
-        if (!product) return res.status(404).json({ message: "Products not found" });
-
-  if (req.file) {
-      // Delete old image from Cloudinary
-      await cloudinary.uploader.destroy(product.public_id);
-
-      // Upload new image to Cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'products',
-          public_id: `products_${Date.now()}`,
+  const updateProduct = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
+  
+      // Get existing product
+      const product = await Product.findById(id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+  
+      if (req.file) {
+        console.log("Uploaded file path:", req.file.path);
+  
+        // Delete old image from Cloudinary if it exists
+        if (product.public_id) {
+          await cloudinary.uploader.destroy(product.public_id);
+        }
+  
+        // Upload new image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: "products",
+          public_id: `product_${Date.now()}`,
           use_filename: true,
-      });
+        });
+  
+        // Remove local file safely
+        if (fs.existsSync(req.file.path)) {
+          fs.unlinkSync(req.file.path);
+        } else {
+          console.log("File not found for deletion:", req.file.path);
+        }
+  
+        updateData.product_image = result.secure_url;
+        updateData.public_id = result.public_id;
+      }
+  
+      // Update product in database
+      const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
+  
+      res.status(200).json({ message: "Product updated successfully", updatedProduct });
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ message: "Error updating product", error: error.message });
+    }
+  };
+  
 
-      // Remove local file
-      fs.unlinkSync(req.file.path);
-
-      updateData.product_image = result.secure_url;
-      updateData.public_id = result.public_id;
-  }
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
-
-    res.status(200).json({ message: "Product updated successfully", updatedProduct });
-  } catch (error) {
-    res.status(500).json({ message: "Error updating product", error });
-  }
-};
 
 const deleteProduct = async (req, res) => {
   try {

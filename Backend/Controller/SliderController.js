@@ -71,41 +71,51 @@ const deleteSlider = async(req,res)=>{
 }
 }
 
-const updateSlider = async(req,res)=>{
+const updateSlider = async (req, res) => {
   try {
-   
-    const updateData = req.body
- 
-    const slider = await sliderimage.findById(req.params.id);
+    const { id } = req.params;  // ✅ Get the ID from request params
+    const updateData = req.body;
+
+    // ✅ Find the slider first
+    const slider = await sliderimage.findById(id);
     if (!slider) return res.status(404).json({ message: "Slider not found" });
 
-
     if (req.file) {
-      // Delete old image from Cloudinary
-      await cloudinary.uploader.destroy(slider.public_id);
+      console.log("Uploaded file path:", req.file.path);
 
-      // Upload new image to Cloudinary
+      // ✅ Delete old image from Cloudinary if it exists
+      if (slider.public_id) {
+        await cloudinary.uploader.destroy(slider.public_id);
+      }
+
+      // ✅ Upload new image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'sliders',
-          public_id: `slider_${Date.now()}`,
-          use_filename: true,
+        folder: "sliders",
+        public_id: `slider_${Date.now()}`,
+        use_filename: true,
       });
 
-      // Remove local file
-      fs.unlinkSync(req.file.path);
+      // ✅ Remove local file safely
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      } else {
+        console.log("File not found for deletion:", req.file.path);
+      }
 
       updateData.image_url = result.secure_url;
       updateData.public_id = result.public_id;
-  }
+    }
 
-    const updateSlider = await sliderimage.findByIdAndUpdate(id,updateData,{new:true})
+    // ✅ Update slider in database
+    const updatedSlider = await sliderimage.findByIdAndUpdate(id, updateData, { new: true });
 
-    res.status(201).json({message:'Slider updated Successfully',updateSlider})
+    res.status(200).json({ message: "Slider updated successfully", updatedSlider });
 
-    
   } catch (error) {
-    res.status(500).json({message:'Network Error during updating the Slider',error})
+    console.error("Error updating slider:", error);
+    res.status(500).json({ message: "Network Error during updating the Slider", error: error.message });
   }
-}
+};
+
 
 module.exports ={saveSlider,getSlider,deleteSlider,updateSlider}
