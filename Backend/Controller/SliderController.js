@@ -56,31 +56,47 @@ const getSlider = async(req,res)=>{
 
 const deleteSlider = async(req,res)=>{
   try {
-    const {id} = req.params
-    const deleteData = await sliderimage.findByIdAndDelete(id);
-    if(!deleteData){
-      res.status(404).json({message:'Data not found'})
-    }
-    res.status(201).json({message:'Slider Deleted Successfully',deleteData})
-    
-  } catch (error) {
-    res.status(500).json({message:'network error during delete',error})
-  }
+    const slider = await sliderimage.findById(req.params.id);
+    if (!slider) return res.status(404).json({ message: "Slider not found" });
+
+    // Delete from Cloudinary
+    await cloudinary.uploader.destroy(slider.public_id);
+
+    // Delete from database
+    await sliderimage.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Slider deleted successfully" });
+
+} catch (error) {
+    res.status(500).json({ error: error.message });
+}
 }
 
 const updateSlider = async(req,res)=>{
   try {
     const {id} =req.params
     const updateData = req.body
-    if(req.file){
-      updateData.image_url = req.file ? req.file.filename:null
-    }
+ 
+    if (req.file) {
+      // Delete old image from Cloudinary
+      await cloudinary.uploader.destroy(slider.public_id);
 
-    const update = await sliderimage.findByIdAndUpdate(id,updateData,{new:true})
-    if(!update){
-      res.status(404).json({message:'Data Not Found For Update'})
-    }
-    res.status(201).json({message:'Slider updated Successfully',update})
+      // Upload new image to Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: 'sliders',
+          public_id: `slider_${Date.now()}`,
+          use_filename: true,
+      });
+
+      // Remove local file
+      fs.unlinkSync(req.file.path);
+
+      updateData.image_url = result.secure_url;
+      updateData.public_id = result.public_id;
+  }
+
+    const updateSlider = await sliderimage.findByIdAndUpdate(id,updateData,{new:true})
+
+    res.status(201).json({message:'Slider updated Successfully',updateSlider})
 
     
   } catch (error) {
