@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import { Link, useNavigate } from 'react-router-dom'
 const SignupPage = () => {
 
-  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
   const navigate = useNavigate();
   const [formData,setFormData] = useState({

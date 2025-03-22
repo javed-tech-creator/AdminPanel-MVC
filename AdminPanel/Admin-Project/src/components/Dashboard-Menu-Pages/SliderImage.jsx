@@ -7,7 +7,7 @@ import process from "process";
 const SliderImage = () => {
 
   const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
-
+console.log(VITE_BACKEND_URL)
 
   const [sliderForm,isSliderForm] = useState(false)
   const [formData,setFormData] = useState({
@@ -170,7 +170,7 @@ onClick={handleAddForm}>
             <div key={slider._id} className="border p-4 rounded-lg shadow-md ">
               <img
                 src={`${VITE_BACKEND_URL}/uploads/${slider.image_url}`}
-                alt={slider.image_title}
+                alt={`${VITE_BACKEND_URL}/uploads/${slider.image_url}`}
                 className="w-full h-80 object-cover rounded-lg"
               />
               <h3 className="mt-2 text-lg font-semibold flex justify-between">

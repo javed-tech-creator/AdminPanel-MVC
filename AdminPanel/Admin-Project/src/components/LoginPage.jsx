@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const LoginPage = ()=> {
-  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
 const navigate = useNavigate();
 
