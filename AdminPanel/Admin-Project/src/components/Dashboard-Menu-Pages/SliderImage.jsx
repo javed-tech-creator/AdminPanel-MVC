@@ -6,7 +6,7 @@ import Swal from "sweetalert2"
 import process from "process";
 const SliderImage = () => {
 
-  const VITE_BACKEND_URL= `https://adminpanel-mvc-backend.onrender.com`;
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
 
   const [sliderForm,isSliderForm] = useState(false)

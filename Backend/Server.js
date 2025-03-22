@@ -17,15 +17,6 @@ const app = express();
 // middleware 
 app.use(express.json());
 app.use(cors());
-
-// for accessing the image from frontend 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // Use specific frontend domain for security
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 app.use('/uploads',express.static(path.join(__dirname,"uploads")))
 app.use('/products',express.static(path.join(__dirname,"product_uploads")))
 
