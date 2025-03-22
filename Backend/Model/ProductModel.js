@@ -21,6 +21,9 @@ const ProductSchema = new mongoose.Schema({
     type: String, // Store image file name or URL
     default: null, // Default is null if no image is provided
   },
+  public_id:{
+    type:String
+  }
 }) 
 
 const Product = mongoose.model("Product", ProductSchema);
