@@ -7,8 +7,7 @@ import process from "process";
 const SliderImage = () => {
 
   const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
-console.log(VITE_BACKEND_URL)
-
+ 
   const [sliderForm,isSliderForm] = useState(false)
   const [formData,setFormData] = useState({
     image_title:"",

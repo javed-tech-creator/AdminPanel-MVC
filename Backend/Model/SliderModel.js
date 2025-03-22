@@ -8,6 +8,9 @@ const slideSchema = new mongoose.Schema({
   },
     image_url:{
       type:String,
+    },
+    public_id:{
+      type:String,
     }
 })
 

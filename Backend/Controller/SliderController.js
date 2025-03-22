@@ -1,16 +1,35 @@
 const sliderimage = require('../Model/SliderModel')
+const { v2: cloudinary } = require('cloudinary');
+const fs = require('fs')
 
+// Configure Cloudinary
+cloudinary.config({ 
+  cloud_name: 'drdefwda9', 
+  api_key: '948565595918736', 
+  api_secret: 'kPWiuSUHm6Zj_E0WvdoyATG60-E' // Replace with actual secret
+});
 
 //saving data...
 const saveSlider = async(req,res)=>{
 try {
  
   const{image_title} = req.body;
-  const image = req.file ? req.file.filename:null;
 
+   // Upload image to Cloudinary
+   const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path, {
+    folder: 'sliders', // Organize uploads into a 'sliders' folder
+    public_id: `slider_${Date.now()}`, // Unique name
+    use_filename: true,
+});
+    // Remove the file from local storage after upload
+    fs.unlinkSync(req.file.path);
+
+     // Save data to database
+ 
   const userData = new sliderimage({
     image_title,
-    image_url:image
+    image_url:cloudinaryResponse.secure_url, // Store Cloudinary URL
+    public_id: cloudinaryResponse.public_id, // Store public_id for future deletions
   })
 
   const savedData = await userData.save();
