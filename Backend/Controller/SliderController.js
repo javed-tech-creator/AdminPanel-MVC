@@ -73,9 +73,13 @@ const deleteSlider = async(req,res)=>{
 
 const updateSlider = async(req,res)=>{
   try {
-    const {id} =req.params
+   
     const updateData = req.body
  
+    const slider = await sliderimage.findById(req.params.id);
+    if (!slider) return res.status(404).json({ message: "Slider not found" });
+
+
     if (req.file) {
       // Delete old image from Cloudinary
       await cloudinary.uploader.destroy(slider.public_id);

@@ -51,17 +51,19 @@ const getProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params;
     const updateData = req.body;
+
+    const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ message: "Products not found" });
 
   if (req.file) {
       // Delete old image from Cloudinary
-      await cloudinary.uploader.destroy(slider.public_id);
+      await cloudinary.uploader.destroy(product.public_id);
 
       // Upload new image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'sliders',
-          public_id: `slider_${Date.now()}`,
+          folder: 'products',
+          public_id: `products_${Date.now()}`,
           use_filename: true,
       });
 
