@@ -149,6 +149,8 @@ try {
     isSliderForm(true)
   }
 
+  console.log("image url seen",sliderImage);
+
   return (
     <div>
         <h2 className="lg:text-4xl sm:text-3xl font-bold text-center mt-4 ">Slider Images</h2>
