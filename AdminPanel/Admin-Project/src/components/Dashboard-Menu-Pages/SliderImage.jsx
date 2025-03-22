@@ -162,6 +162,8 @@ onClick={handleAddForm}>
 <span>Add Image</span>
 </button>
 
+console.log(sliderImage);
+
 <div className="p-6 mt-15">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {sliderImage.length > 0 ? (
@@ -172,6 +174,7 @@ onClick={handleAddForm}>
                 alt={slider.image_url || "Slider Image"}
                 className="w-full h-80 object-cover rounded-lg"
               />
+              
               <h3 className="mt-2 text-lg font-semibold flex justify-between">
                 <span>{slider.image_title}</span>
                 <span className='flex gap-4'> 
