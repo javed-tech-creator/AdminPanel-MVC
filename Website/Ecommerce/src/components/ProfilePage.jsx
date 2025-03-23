@@ -32,8 +32,10 @@ const ProfilePage = () => {
         </button>
       </div>
 
-      
+      <div className="position absolute bottom-0 w-full">
       <FooterClient/>
+      </div>
+
     </div>
   );
 };

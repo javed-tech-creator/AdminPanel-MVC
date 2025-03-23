@@ -4,12 +4,13 @@ import React, { createContext, useEffect, useState } from 'react'
 export const cartData = createContext();
 
 const CartItemsStore = ({children}) => {
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
   const [cartItem, setItemCart] = useState([]); // Holds cart data
 
   const fetchedBagItem = async() => {
     try {
-      const response = await axios.get('http://localhost:3000/cart/get');
+      const response = await axios.get(`${VITE_BACKEND_URL}/cart/get`);
       setItemCart(response.data.fetchedData);
     } catch (error) {
       console.error("Error during fetching Cart item");
@@ -18,7 +19,7 @@ const CartItemsStore = ({children}) => {
 
    const removeFromBag = async(id)=>{
       try {
-        const response = await axios.delete(`http://localhost:3000/cart/delete/${id}`)
+        const response = await axios.delete(`${VITE_BACKEND_URL}/cart/delete/${id}`)
         
         if(response.status >=200 && response.status < 300){
           fetchedBagItem();

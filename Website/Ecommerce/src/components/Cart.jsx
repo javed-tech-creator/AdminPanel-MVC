@@ -46,7 +46,7 @@ const {cartItem,removeFromBag} = useContext(cartData);
               {/* Left Part: Image */}
               
               <div className="w-24 h-34 flex-shrink-0">
-                <img className="w-full h-full object-cover" src={`http://localhost:3000/products/${item.product_image}`} alt={item.product_name} />
+                <img className="w-full h-full object-cover" src={item.product_image} alt={item.product_name} />
               </div>
               {/* Right Part: Item Details */}
               <div className="flex-1 px-4">

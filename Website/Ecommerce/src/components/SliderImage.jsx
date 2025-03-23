@@ -4,14 +4,18 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/autoplay"; // Ensure autoplay styles are loaded
 import axios from "axios";
 
 const SliderImage = () => {
+
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
+
   const [slides, setSlides] = useState([]);
 
   const fetchedData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/slider/get");
+      const response = await axios.get(`${VITE_BACKEND_URL}/slider/get`);
       setSlides(response.data.data);
     } catch (error) {
       console.error("Error During Fetching the data", error);
@@ -30,7 +34,7 @@ const SliderImage = () => {
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay:1000 }}
+        autoplay={{ delay:1000, disableOnInteraction: false }}
         loop={true}
         className=" shadow-lg "
       >
@@ -38,9 +42,9 @@ const SliderImage = () => {
           slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <img
-                src={`http://localhost:3000/uploads/${slide.image_url}`}
+                src={slide.image_url}
                 alt={`Slide ${index + 1}`}
-                className="w-full h-86 object-cover "
+                className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-fit "
               />
             </SwiperSlide>
           ))

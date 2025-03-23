@@ -9,12 +9,15 @@ import FooterClient from './FooterClient';
 
 const MainPage = () => {
 
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
+
+
   const [products, setProducts] = useState([]);
   const {cartItem,fetchedBagItem} = useContext(cartData);
 
   const fetchedData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/product/all");
+      const response = await axios.get(`${VITE_BACKEND_URL}/product/all`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error Occurred During Fetching Product Details", error);
@@ -39,7 +42,7 @@ console.log(cartItem)
    return  alert('Item Is Already Added')
        }
 
-    const response = await axios.post('http://localhost:3000/cart/add',item)
+    const response = await axios.post(`${VITE_BACKEND_URL}/cart/add`,item)
 
     if(response.status >= 200 && response.status < 300 ){
       Swal.fire({
@@ -73,11 +76,11 @@ console.log(cartItem)
 
     {/* product card  */}
 
-      <div className="flex flex-wrap justify-center gap-5 mb-5">
+      {/* <div className="flex flex-wrap justify-center gap-5 mb-5"> */}
    
     <ProductsCard products={products} handleCart={handleCart} />
     
-    </div>
+    {/* </div> */}
     <FooterClient/>
     </div>
   )
