@@ -75,8 +75,6 @@ console.log(cartItem)
       <h2 className='p-4 text-gray-900'>Products </h2>
 
     {/* product card  */}
-
-      {/* <div className="flex flex-wrap justify-center gap-5 mb-5"> */}
    
     <ProductsCard products={products} handleCart={handleCart} />
     
