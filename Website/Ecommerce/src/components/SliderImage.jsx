@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -49,8 +50,15 @@ const SliderImage = () => {
             </SwiperSlide>
           ))
         ) : (
-          <p className=" text-gray-500 text-4xl h-76 flex justify-center items-center ">Loading slides...</p>
-        )}
+          <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+          className="flex justify-center items-center h-[300px] text-gray-500 text-xl"
+        >
+          Loading slides...
+        </motion.div>        )}
       </Swiper>
     </div>
   );
