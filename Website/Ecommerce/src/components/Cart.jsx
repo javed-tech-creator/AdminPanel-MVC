@@ -4,10 +4,13 @@ import Navbar from './Navbar';
 import { useContext } from 'react';
 import { cartData } from '../store/Cart-data-store';
 import FooterClient from './FooterClient';
+import { FaPlus } from 'react-icons/fa6';
+import { TiMinus } from "react-icons/ti";
 
 const Cart = () => {
 const [totalPrice,setTotalPrice] = useState(0)
 const {cartItem,removeFromBag} = useContext(cartData);
+const [quantity,setQuantity] = useState(1)
 
 
      // Calculate total price whenever cart items change
@@ -27,6 +30,10 @@ const {cartItem,removeFromBag} = useContext(cartData);
       });
     };
 
+    const increaseQuantity = (userid)=>{
+      setQuantity(quantity+1)
+    }
+
   return (
     <>
       
@@ -38,6 +45,8 @@ const {cartItem,removeFromBag} = useContext(cartData);
         
          <div className="flex flex-col md:flex-row flex-wrap gap-5 mb-5 ">
       {/* Cart Items Section */}
+     
+      
       <div className="w-full md:w-1/2">
         {cartItem.length > 0 ? (
           cartItem.map((item, idx) => (
@@ -61,7 +70,22 @@ const {cartItem,removeFromBag} = useContext(cartData);
                 <div className="text-gray-600 text-sm mt-1">
                   Delivery in <span className="font-medium">10 days</span>
                 </div>  
+                
               </div>
+
+               {/* Quantity Selector */}
+               <div className="flex flex-col lg:flex-row gap-2 lg:gap-1 items-center">
+               <button className="p-1 bg-red-600 text-white rounded" onClick={() => decreaseQuantity(item._id)}><TiMinus /></button>
+          <input 
+            type="text" 
+            className="w-10 text-center border border-gray-400 rounded" 
+            value={quantity} 
+            readOnly 
+          />
+          <button className="p-1 bg-green-600 text-white rounded " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
+        </div>
+
+  
               
               {/* Remove from Cart Button */}
               <button className="text-red-600 hover:text-red-800  font-bold px-2 " onClick={() => removeFromBag(item._id)}>
@@ -73,6 +97,7 @@ const {cartItem,removeFromBag} = useContext(cartData);
          <p className='text-center p-5 text-4xl text-red-400'>Items Not Added</p>
         )}
       </div>
+
       {/* Price Details Section */}
       <div className="w-full md:w-1/3 border-l-1 border-gray-300 p-4">
         <div className="p-4 border border-gray-300 rounded-lg shadow-md">
