@@ -10,16 +10,24 @@ import { TiMinus } from "react-icons/ti";
 const Cart = () => {
 const [totalPrice,setTotalPrice] = useState(0)
 const {cartItem,removeFromBag} = useContext(cartData);
-const [quantity,setQuantity] = useState(1)
+const [quantities,setQuantities] = useState({})
 
 
      // Calculate total price whenever cart items change
   useEffect(() => {
     const total = cartItem.reduce((acc, item) => acc + item.product_price, 0);
     setTotalPrice(total);
+
+    // Initialize quantities when cartItem changes (optional)
+    const initialQuantities = {};
+    cartItem.forEach(item => {
+      initialQuantities[item._id] = 1;
+    })
+    console.log(cartItem);
+      setQuantities(initialQuantities);
   }, [cartItem]);
 
-
+console.log(cartItem);
     
     const handlePlaceOrder = () => {
       Swal.fire({
@@ -30,9 +38,19 @@ const [quantity,setQuantity] = useState(1)
       });
     };
 
-    const increaseQuantity = (userid)=>{
-      setQuantity(quantity+1)
-    }
+    const increaseQuantity = (id) => {
+      setQuantities(prev => ({
+        ...prev,
+        [id]: prev[id] + 1
+      }));
+    };
+  
+    const decreaseQuantity = (id) => {
+      setQuantities(prev => ({
+        ...prev,
+        [id]: Math.max(1, prev[id] - 1)
+      }));
+    };
 
   return (
     <>
@@ -79,7 +97,7 @@ const [quantity,setQuantity] = useState(1)
           <input 
             type="text" 
             className="w-10 text-center border border-gray-400 rounded" 
-            value={quantity} 
+            value={quantities[item._id] || 1} 
             readOnly 
           />
           <button className="p-1 bg-green-600 text-white rounded " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
