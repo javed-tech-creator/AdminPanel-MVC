@@ -7,11 +7,12 @@ const CartItemsStore = ({children}) => {
   const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
   const [cartItem, setItemCart] = useState([]); // Holds cart data
-
+  const[cartLoader,setCartLoader] = useState(false);
   const fetchedBagItem = async() => {
     try {
       const response = await axios.get(`${VITE_BACKEND_URL}/cart/get`);
       setItemCart(response.data.fetchedData);
+      setCartLoader(true)
     } catch (error) {
       console.error("Error during fetching Cart item");
     }
@@ -38,7 +39,7 @@ const CartItemsStore = ({children}) => {
 
   return (
     <>
-    <cartData.Provider value={{cartItem,fetchedBagItem,removeFromBag}}>
+    <cartData.Provider value={{cartItem,fetchedBagItem,removeFromBag,cartLoader}}>
     {children}
     </cartData.Provider>
     </>

@@ -14,11 +14,12 @@ const MainPage = () => {
 
   const [products, setProducts] = useState([]);
   const {cartItem,fetchedBagItem} = useContext(cartData);
-
+  const [loader,setLoader] = useState(false)
   const fetchedData = async () => {
     try {
       const response = await axios.get(`${VITE_BACKEND_URL}/product/all`);
       setProducts(response.data);
+      setLoader(true)
     } catch (error) {
       console.error("Error Occurred During Fetching Product Details", error);
     }
@@ -76,7 +77,7 @@ console.log(cartItem)
 
     {/* product card  */}
    
-    <ProductsCard products={products} handleCart={handleCart} />
+    <ProductsCard products={products} handleCart={handleCart} loader={loader}/>
     
     {/* </div> */}
     <FooterClient/>

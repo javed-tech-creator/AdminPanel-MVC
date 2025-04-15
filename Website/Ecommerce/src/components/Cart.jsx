@@ -9,7 +9,7 @@ import { TiMinus } from "react-icons/ti";
 
 const Cart = () => {
 const [totalPrice,setTotalPrice] = useState(0)
-const {cartItem,removeFromBag} = useContext(cartData);
+const {cartItem,removeFromBag,cartLoader} = useContext(cartData);
 const [quantities,setQuantities] = useState({})
 
 
@@ -66,8 +66,12 @@ console.log(cartItem);
      
       
       <div className="w-full md:w-1/2">
-        {cartItem.length > 0 ? (
-          cartItem.map((item, idx) => (
+      {!cartLoader &&(
+                 <p className='text-center p-5 text-4xl text-red-400'>Loading...</p>
+
+      )}
+
+        { cartItem.map((item, idx) => (
           
             <div key={idx} className="flex items-center justify-between p-4 border-b border-gray-300 mt-3">
               {/* Left Part: Image */}
@@ -111,7 +115,8 @@ console.log(cartItem);
               </button>
             </div>
           ))
-        ) : (
+        }
+       {cartLoader && cartItem.length === 0 && (
          <p className='text-center p-5 text-4xl text-red-400'>Items Not Added</p>
         )}
       </div>

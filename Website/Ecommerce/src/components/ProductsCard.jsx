@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-const ProductsCard = ({products,handleCart}) => {
+const ProductsCard = ({products,handleCart,loader}) => {
 
 
   return (
@@ -46,7 +46,13 @@ const ProductsCard = ({products,handleCart}) => {
   
     <>
    <div className=" mx-auto px-2">
-  {products.length > 0 ? (
+
+    {!loader && (
+          <p className="text-center text-gray-500 text-2xl py-10">Loading...</p>
+
+    )}
+
+  {products  && (
     <div className="flex flex-wrap justify-center gap-4 mb-5">
             {products.map((product, idx) => (
         <div
@@ -89,7 +95,8 @@ const ProductsCard = ({products,handleCart}) => {
         </div>
       ))}
     </div>
-  ) : (
+ )}
+ {loader && products.length === 0 && (
     <p className="text-center text-gray-500 text-2xl py-10">No Records Found</p>
   )}
 </div>
