@@ -117,20 +117,20 @@ console.log(cartItem);
 
                {/* Quantity Selector */}
                <div className="flex flex-col lg:flex-row gap-2 lg:gap-1 items-center">
-               <button className="p-1 bg-red-600 text-white rounded" onClick={() => decreaseQuantity(item._id)}><TiMinus /></button>
+               <button className="p-1 bg-red-600 hover:bg-red-800 text-white rounded hover:cursor-pointer" onClick={() => decreaseQuantity(item._id)}><TiMinus /></button>
           <input 
             type="text" 
             className="w-10 text-center border border-gray-400 rounded" 
             value={quantities[item._id] } 
             readOnly 
           />
-          <button className="p-1 bg-green-600 text-white rounded " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
+          <button className="p-1 bg-green-600 hover:bg-green-800 text-white rounded hover:cursor-pointer " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
         </div>
 
   
               
               {/* Remove from Cart Button */}
-              <button className="text-red-600 hover:text-red-800  font-bold px-2 " onClick={() => removeFromBag(item._id)}>
+              <button className="text-red-600 hover:text-red-800  font-bold px-2 hover:cursor-pointer" onClick={() => removeFromBag(item._id)}>
                 X
               </button>
             </div>

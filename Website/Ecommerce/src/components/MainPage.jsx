@@ -73,7 +73,7 @@ console.log(cartItem)
 {/* slider image  */}
       <SliderImage/>
 
-      <h2 className='p-4 text-gray-900 md:text-2xl md:font-bold'>Products </h2>
+      <h2 className='p-4 font-bold text-gray-900 md:text-2xl md:font-bold'>Products </h2>
 
     {/* product card  */}
    
