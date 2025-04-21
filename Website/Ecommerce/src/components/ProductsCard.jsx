@@ -45,7 +45,7 @@ const ProductsCard = ({products,handleCart,loader}) => {
   //  </>
   
     <>
-   <div className=" mx-auto px-2">
+   <div id='product' className=" mx-auto px-2">
 
     {!loader && (
           <p className="text-center text-gray-500 text-2xl py-10">Loading...</p>
@@ -58,11 +58,11 @@ const ProductsCard = ({products,handleCart,loader}) => {
         <div
           key={idx}
           className="
-          bg-white rounded-2xl shadow-lg p-4 hover:shadow-2xl transition-all duration-300
-          w-[80%]  xs:w-[48%] sm:w-[30%] md:w-[29%] lg:w-[22%] xl:w-[15%] "
+          bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300
+          w-[30%]  xs:w-[48%] sm:w-[30%] md:w-[29%] md:mt-5  lg:w-[22%] xl:w-[15%] "
       >
           {/* Product Image */}
-          <div className="w-full h-42 md:h-66 lg:h-62 overflow-hidden rounded-xl">
+          <div className="w-full h-22 md:h-66 lg:h-62 overflow-hidden rounded-xl md:p-2">
             <img
               src={product.product_image}
               alt={product.product_name}
@@ -71,23 +71,23 @@ const ProductsCard = ({products,handleCart,loader}) => {
           </div>
 
           {/* Product Details */}
-          <div className="mt-4">
-          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium md:font-semibold lg:font-bold text-gray-800  break-words">
+          <div className="mt-1">
+          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-normal  md:font-semibold lg:font-bold text-gray-800 md:ps-2  break-words">
           {product.product_name}</h3>
 
             {/* Rating */}
-            <div className="flex items-center my-2">
+            <div className="flex items-center my-2 md:ps-2">
               <span className="text-yellow-400 text-xl">⭐</span>
-              <span className="text-gray-600 ml-2">{product.product_rating} / 5</span>
+              <span className="text-gray-600 ps-1 ">{product.product_rating} / 5</span>
             </div>
 
             {/* Price */}
-            <p className="text-xl font-bold text-green-600">Rs {product.product_price}</p>
+            <p className="text-base font-normal text-green-600 ps-2 md:text-xl md:font-bold md:ps-2">Rs {product.product_price}</p>
 
             {/* Add to Cart Button */}
             <button
               onClick={() => handleCart(product)}
-              className="w-full mt-4 py-2 px-4 bg-blue-600 text-white rounded-lg font-medium text-lg hover:bg-blue-700 transition"
+              className="w-full mt-2 p-1 text-[12px] bg-blue-600 text-white rounded-lg  hover:bg-blue-700 transition md:py-2 md:text-xl md:font-bold hover:cursor-pointer md:mt-5"
             >
               Add to Cart 🛒
             </button>

@@ -17,12 +17,16 @@ const Navbar = ({cartItem}) => {
              <ul className="hidden md:flex items-center gap-10 text-gray-700">
                <li>
                  <button >
-                 <Link to='/'  className="text-white hover:text-blue-500">Home </Link>
+                 <Link to='/'  className="text-white hover:text-blue-500 ">Home </Link>
                  </button>
                </li>
                <li>
-                 <button  className="text-white hover:text-blue-500">Products</button>
-               </li>
+                
+                 <a href="#product" className="text-white no-underline hover:text-blue-500 ">
+                 Products
+                 </a>
+               
+                 </li>
                <li>
                  <button  className="text-white hover:text-blue-500">Deals</button>
                </li>

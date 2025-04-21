@@ -6,12 +6,13 @@ import { cartData } from '../store/Cart-data-store';
 import FooterClient from './FooterClient';
 import { FaPlus } from 'react-icons/fa6';
 import { TiMinus } from "react-icons/ti";
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 const [totalPrice,setTotalPrice] = useState(0)
 const {cartItem,removeFromBag,cartLoader} = useContext(cartData);
 const [quantities,setQuantities] = useState({})
-
+const navigate = useNavigate();
 
      // Calculate total price whenever cart items change
   useEffect(() => {
@@ -30,19 +31,31 @@ const [quantities,setQuantities] = useState({})
 console.log(cartItem);
     
     const handlePlaceOrder = () => {
-      Swal.fire({
-        title: "Order Placed!",
-        text: "Your order has been placed successfully.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      // Swal.fire({
+      //   title: "Order Placed!",
+      //   text: "Your order has been placed successfully.",
+      //   icon: "success",
+      //   confirmButtonText: "OK",
+      // });
+      if(cartItem.length > 0){
+      navigate('/address')
+    }else{
+      alert('Item Not Added Yet')
+    }
     };
 
     const increaseQuantity = (id) => {
       setQuantities(prev => ({
         ...prev,
-        [id]: prev[id] + 1
+        [id]: prev[id] += 1
       }));
+
+      const item = cartItem.filter(item=> id === item._id)
+      const itemPrice = item[0].product_price;
+
+      setTotalPrice(totalPrice+itemPrice);
+      console.log(quantities)
+
     };
   
     const decreaseQuantity = (id) => {
@@ -50,6 +63,13 @@ console.log(cartItem);
         ...prev,
         [id]: Math.max(1, prev[id] - 1)
       }));
+       
+    if(quantities[id] > 1){   
+      const item = cartItem.filter(item=> id === item._id)
+      const itemPrice = item[0].product_price;
+      setTotalPrice(totalPrice-itemPrice);
+    }
+
     };
 
   return (
@@ -101,7 +121,7 @@ console.log(cartItem);
           <input 
             type="text" 
             className="w-10 text-center border border-gray-400 rounded" 
-            value={quantities[item._id] || 1} 
+            value={quantities[item._id] } 
             readOnly 
           />
           <button className="p-1 bg-green-600 text-white rounded " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
@@ -136,13 +156,13 @@ console.log(cartItem);
             </div>
             <div className="flex justify-between text-gray-700">
               <span>Convenience Fee</span>
-              <span>₹99</span>
+              <span>{cartItem.length > 0 ? "₹99" : "₹0"}</span>
             </div>
           </div>
           <hr className="my-2" />
           <div className="flex justify-between font-bold text-lg text-gray-800">
             <span>Total Amount</span>
-            <span>₹{totalPrice+99}</span>
+            <span>{cartItem.length > 0 ? totalPrice + 99 : 0 }</span>
           </div>
           <button  onClick={handlePlaceOrder} className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
             PLACE ORDER
