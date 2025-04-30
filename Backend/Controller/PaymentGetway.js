@@ -34,7 +34,7 @@ const expectedSignature = crypto.createHmac('sha256',process.env.RAZORPAY_API_SE
 const isAuthentic = expectedSignature === razorpay_signature;
 
 if(isAuthentic){
-  return res.redirect(`http://localhost:5173/payment/varification?reference=${razorpay_payment_id}&order=${razorpay_order_id}`)
+  return res.redirect(`https://shopese.netlify.app/payment/varification?reference=${razorpay_payment_id}&order=${razorpay_order_id}`)
 }else{
   res.status(400).json({
     success:false
