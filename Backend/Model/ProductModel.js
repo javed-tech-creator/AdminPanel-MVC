@@ -23,6 +23,17 @@ const ProductSchema = new mongoose.Schema({
   },
   public_id:{
     type:String
+  },
+  total_price:{
+    type:Number,
+  },
+  product_category:{
+    type:String,
+    required:true
+  },
+  product_description:{
+    type:String,
+    required:true
   }
 }) 
 

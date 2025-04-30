@@ -3,7 +3,7 @@ const cartModel = require('../Model/CartItems');
 
 const addCartItems = async(req,res)=>{
 try {
-  const { product_name, product_price, product_rating,product_image,_id }=req.body;
+  const { product_name, product_price, product_rating,product_image,_id,total_price,product_category, product_description,product_quantity }=req.body;
  
 
   const addedItems = new cartModel({
@@ -11,6 +11,10 @@ try {
     product_price,
     product_rating,
     product_image,
+    total_price,
+    product_category, 
+    product_description,
+    product_quantity,
     _id
   })
   const savedItems = await addedItems.save();

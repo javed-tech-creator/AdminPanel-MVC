@@ -5,13 +5,17 @@ import axios from 'axios';
 
 const ProductDetail = () => {
 
-  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
+  // https://adminpanel-mvc-backend.onrender.com
+  const VITE_BACKEND_URL= "http://localhost:3000";
 
   const [productForm,setProductForm] = useState(false)
   const [formData,setFormData] = useState({
     product_name:"",
     product_price:"",
     product_rating:"",
+    total_price:"",
+    product_category:"", 
+    product_description:"",
     product_image:null
   })
 
@@ -72,6 +76,9 @@ const ProductDetail = () => {
             product_name:"",
             product_price:"",
             product_rating:"",
+            total_price:"",
+            product_category:"", 
+            product_description:"",
             product_image:null
           })
 
@@ -97,7 +104,11 @@ const ProductDetail = () => {
       product_name:product.product_name,
       product_price:product.product_price,
       product_rating:product.product_rating,
-      product_image:product.product_image
+      product_image:product.product_image,
+      total_price:product.total_price,
+      product_category:product.product_category,
+      product_description:product.product_description,
+
     })
     setProductForm(true)
     setCurrentId(userid);
@@ -108,6 +119,9 @@ const ProductDetail = () => {
       product_name:"",
       product_price:"",
       product_rating:"",
+      total_price:"",
+      product_category:"", 
+      product_description:"",
       product_image:null
     })
     setProductForm(true)
@@ -162,16 +176,32 @@ onClick={itemAdd}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 {fetchedData.length > 0 ? (
   fetchedData.map((product, index) => (
-    <div key={index} className=" shadow-lg rounded-2xl border p-4 ">
+    <div key={index} className=" shadow-lg rounded-2xl border p-2 h-[390px]  md:h-[350px] lg:h-[380px]">
       <img 
         src={product.product_image} 
         alt={product.product_name} 
-        className="w-full h-96 object-cover rounded-lg" 
+        className="w-full h-55 object-cover rounded-lg" 
       />
       <div className="mt-4">
-        <h2 className="text-lg font-semibold">{product.product_name}</h2>
-        <p className="text-gray-600">Rs {product.product_price}</p>
-        <div className="flex items-center gap-1 mt-1">
+        <h2 className="mt-[15px] mb-[6px] text-base font-bold leading-none text-[#282c3f] overflow-hidden text-ellipsis whitespace-nowrap">{product.product_name}</h2>
+
+        <p className="text-[#535767] text-base mb-0 mt-0 block overflow-hidden text-ellipsis whitespace-nowrap">
+  {product.product_description}
+</p>
+
+        <div className="mt-2 text-sm leading-[15px] text-[#282c3f] flex flex-wrap items-center">
+  <span className="text-sm font-bold text-[#282c3f]">
+    ₹ {product.product_price}
+  </span>
+  <span className="line-through text-[#7e818c] font-normal text-xs ml-2">
+    ₹ {product.total_price}
+  </span>
+  <span className="text-[#26b72d] font-normal text-xs ml-2">
+  ({Math.round(((product.total_price - product.product_price) / product.total_price) * 100)}% OFF)
+  </span>
+</div>
+
+        <div className="flex items-center gap-1 mt-2">
           {[...Array(5)].map((_, idx) => (
             <Star key={idx} size={16} className={idx < product.product_rating ? "text-yellow-500" : "text-black"} />
           ))}
@@ -202,77 +232,114 @@ onClick={itemAdd}>
 <h2 className="text-xl font-bold text-center mb-4 text-black ">{currentId ? "Update details":"Add details"}</h2>
 
 <form onSubmit={handleSubmit}>
+  <div className="mb-4">
+    <label className="block text-black">Product_Name:</label>
+    <input
+      type="text"
+      name="product_name"
+      value={formData.product_name}
+      onChange={formInputChange}
+      className="w-full p-2 border rounded text-black"
+      required
+    />
+  </div>
 
+  <div className="mb-4">
+    <label className="block text-black">Product_description:</label>
+    <input
+      type="text"
+      name="product_description"
+      value={formData.product_description}
+      onChange={formInputChange}
+      className="w-full p-2 border rounded text-black"
+      required
+    />
+  </div>
 
-<div className=" mb-4">
-<label className="block text-black ">Product_Name:</label>
-<input
-  type="text"
-  name="product_name"
-  value={formData.product_name}
-  onChange={formInputChange}
-  className="w-full p-2 border rounded text-black "
-  required
-/>
-</div>
-<div className=" mb-4">
-<label className="block text-black ">Product_Price:</label>
-<input
-  type="number"
-  name="product_price"
-  value={formData.product_price}
-  onChange={formInputChange}
-  className="w-full p-2 border rounded text-black "
-  required
-/>
-</div>
+  {/* Row: Selling_Price & Product_Price */}
+  <div className="flex gap-4 mb-4">
+    <div className="w-1/2">
+      <label className="block text-black">Selling_Price:</label>
+      <input
+        type="number"
+        name="product_price"
+        value={formData.product_price}
+        onChange={formInputChange}
+        className="w-full p-2 border rounded text-black"
+        required
+      />
+    </div>
+    <div className="w-1/2">
+      <label className="block text-black">Product_Price:</label>
+      <input
+        type="number"
+        name="total_price"
+        value={formData.total_price}
+        onChange={formInputChange}
+        className="w-full p-2 border rounded text-black"
+        required
+      />
+    </div>
+  </div>
 
-<div className=" mb-4">
-<label className="block text-black ">Product_Rating:</label>
-<input
-  type="number"
-  name="product_rating"
-  value={formData.product_rating}
-  onChange={formInputChange}
-  className="w-full p-2 border rounded text-black "
-  required
-/>
-</div>
+  {/* Row: Product_Rating & Product_Category */}
+  <div className="flex gap-4 mb-4">
+    <div className="w-1/2">
+      <label className="block text-black">Product_Rating:</label>
+      <input
+        type="number"
+        name="product_rating"
+        value={formData.product_rating}
+        onChange={formInputChange}
+        className="w-full p-2 border rounded text-black"
+        required
+      />
+    </div>
+    <div className="w-1/2">
+      <label className="block text-black">Product_Category:</label>
+      <input
+        type="text"
+        name="product_category"
+        value={formData.product_category}
+        onChange={formInputChange}
+        className="w-full p-2 border rounded text-black"
+        required
+      />
+    </div>
+  </div>
 
+  <div className="mb-4">
+    <label className="block text-black">Product Image:</label>
+    <input
+      type="file"
+      name="product_image"
+      onChange={formFileChange}
+      className="w-full p-2 border rounded text-black"
+    />
+  </div>
 
-<div className="mb-4">
-<label className="block text-black">Product Image:</label>
-<input
-type="file"
-name="product_image"
-onChange={formFileChange}
-className="w-full p-2 border rounded text-black "
-// required
-/>
-</div>
+  {/* Modal Buttons */}
+  <div className="flex justify-end gap-4">
+    <button
+      type="button"
+      onClick={() => {
+        setProductForm(false);
+        setCurrentId(null);
+      }}
+      className="px-4 py-2 text-red-600 hover:text-red-800 transition cursor-pointer"
+    >
+      Cancel
+    </button>
 
-
-{/* Modal Buttons */}
-<div className="flex justify-end gap-4">
-<button
-type="button"
-onClick={() =>{ 
-  setProductForm(false)
-  setCurrentId(null)
- }}
-className="px-4 py-2 text-red-600 hover:text-red-800 transition cursor-pointer"
->
-Cancel
-</button>
-
-<button
-type="submit"
-className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition cursor-pointer"
->
-{currentId ? "Update":"Save"}
-</button>
-</div>
+    <button
+      type="submit"
+      className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition cursor-pointer"
+    >
+      {currentId ? "Update" : "Save"}
+    </button>
+  </div>
 </form>
+
 </div>
 </div>
 )}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Swal from 'sweetalert2';
 import Navbar from './Navbar';
 import { useContext } from 'react';
 import { cartData } from '../store/Cart-data-store';
@@ -7,70 +6,32 @@ import FooterClient from './FooterClient';
 import { FaPlus } from 'react-icons/fa6';
 import { TiMinus } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
-const [totalPrice,setTotalPrice] = useState(0)
-const {cartItem,removeFromBag,cartLoader} = useContext(cartData);
-const [quantities,setQuantities] = useState({})
+
+const {cartItem,removeFromBag,cartLoader,totalPrice,discountPrice,increaseQuantity,decreaseQuantity} = useContext(cartData);
 const navigate = useNavigate();
-
-     // Calculate total price whenever cart items change
-  useEffect(() => {
-    const total = cartItem.reduce((acc, item) => acc + item.product_price, 0);
-    setTotalPrice(total);
-
-    // Initialize quantities when cartItem changes (optional)
-    const initialQuantities = {};
-    cartItem.forEach(item => {
-      initialQuantities[item._id] = 1;
-    })
-    console.log(cartItem);
-      setQuantities(initialQuantities);
-  }, [cartItem]);
-
-console.log(cartItem);
+ 
     
     const handlePlaceOrder = () => {
-      // Swal.fire({
-      //   title: "Order Placed!",
-      //   text: "Your order has been placed successfully.",
-      //   icon: "success",
-      //   confirmButtonText: "OK",
-      // });
+     
       if(cartItem.length > 0){
       navigate('/address')
     }else{
-      alert('Item Not Added Yet')
+      toast.warning('No Items in Cart', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
     }
     };
 
-    const increaseQuantity = (id) => {
-      setQuantities(prev => ({
-        ...prev,
-        [id]: prev[id] += 1
-      }));
-
-      const item = cartItem.filter(item=> id === item._id)
-      const itemPrice = item[0].product_price;
-
-      setTotalPrice(totalPrice+itemPrice);
-      console.log(quantities)
-
-    };
-  
-    const decreaseQuantity = (id) => {
-      setQuantities(prev => ({
-        ...prev,
-        [id]: Math.max(1, prev[id] - 1)
-      }));
-       
-    if(quantities[id] > 1){   
-      const item = cartItem.filter(item=> id === item._id)
-      const itemPrice = item[0].product_price;
-      setTotalPrice(totalPrice-itemPrice);
-    }
-
-    };
+   
 
   return (
     <>
@@ -87,8 +48,9 @@ console.log(cartItem);
       
       <div className="w-full md:w-1/2">
       {!cartLoader &&(
-                 <p className='text-center p-5 text-4xl text-red-400'>Loading...</p>
-
+        <div className="flex justify-center items-center p-5 h-[300px]">
+  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-4 border-dashed rounded-full animate-spin border-gray-300"></div>
+  </div>
       )}
 
         { cartItem.map((item, idx) => (
@@ -102,9 +64,15 @@ console.log(cartItem);
               {/* Right Part: Item Details */}
               <div className="flex-1 px-4">
                 <div className="text-lg font-bold">{item.product_name}</div>
+                <p className="text-[#535767]  text-base block overflow-hidden text-ellipsis ">
+                    {item.product_description}
+                  </p>
                 <div className="flex items-center space-x-2 text-sm mt-1">
                   <span className="text-green-600 font-bold">₹{item.product_price}</span>
-                  <span className="text-red-500">(0 % OFF)</span>
+                  <span className="line-through text-[#7e818c] font-normal text-xs ml-2">
+                      ₹ {item.total_price}
+                    </span>
+                  <span className="text-red-500">({Math.round(((item.total_price - item.product_price) / item.total_price) * 100)}% OFF)</span>
                 </div>
                 <div className="text-gray-600 text-sm mt-1">
                   <span className="font-medium">7 days</span> return available
@@ -121,7 +89,7 @@ console.log(cartItem);
           <input 
             type="text" 
             className="w-10 text-center border border-gray-400 rounded" 
-            value={quantities[item._id] } 
+            value={item.product_quantity} 
             readOnly 
           />
           <button className="p-1 bg-green-600 hover:bg-green-800 text-white rounded hover:cursor-pointer " onClick={() => increaseQuantity(item._id)}><FaPlus /></button>
@@ -148,29 +116,32 @@ console.log(cartItem);
           <div className="mt-2 space-y-2">
             <div className="flex justify-between text-gray-700">
               <span>Total MRP</span>
-              <span>₹{totalPrice}</span>
+              <span>₹ {totalPrice}</span>
             </div>
             <div className="flex justify-between text-green-600">
               <span>Discount on MRP</span>
-              <span>-₹0</span>
+              <span>-₹ {discountPrice-totalPrice}</span>
             </div>
             <div className="flex justify-between text-gray-700">
               <span>Convenience Fee</span>
-              <span>{cartItem.length > 0 ? "₹99" : "₹0"}</span>
+              <span>{cartItem.length > 0 ? "₹ 99" : "₹0"}</span>
             </div>
           </div>
           <hr className="my-2" />
           <div className="flex justify-between font-bold text-lg text-gray-800">
             <span>Total Amount</span>
-            <span>{cartItem.length > 0 ? totalPrice + 99 : 0 }</span>
+            <span>₹ {cartItem.length > 0 ? totalPrice + 99 : 0 }</span>
           </div>
-          <button  onClick={handlePlaceOrder} className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <button  onClick={handlePlaceOrder} className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer">
             PLACE ORDER
           </button>
         </div>
       </div>
     </div>
 <FooterClient/>
+
+{/* toast container  */}
+
       </>
   )
 }

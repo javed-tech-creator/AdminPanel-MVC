@@ -3,41 +3,26 @@ import FooterClient from "./FooterClient";
 import Navbar from "./Navbar";
 import { cartData } from "../store/Cart-data-store";
 import ProgressBar from "./ProgressBar";
-
+import LoaderPayment from "./LoaderPayment";
 export default function DelihveryAddress() {
 
-  const {cartItem} = useContext(cartData);
-const [submit,setSubmit] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    street: "",
-    city: "",
-    state: "",
-    pin: "",
-    country: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const {cartItem,handleChange,shippingAddress,handleSubmit,paymentLoader,progress,fetchAddress} = useContext(cartData);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmit(true);
-    formData.payment="success";
-    console.log("Submitted Address Data:", formData);
-    // You can send this data to your backend API here
-  };
+
+ 
 
   return (
     <>
      {/* navbar  */}
      <Navbar cartItem = {cartItem} />
 
-   <ProgressBar submit = {submit}/>
+   <ProgressBar submit = {progress}/>
+
+   {/* setPaymentLoader  */}
+   {paymentLoader && (
+    <LoaderPayment/>
+   )}
 
 {/* form  start */}
 
@@ -50,7 +35,7 @@ const [submit,setSubmit] = useState(false)
             type="text"
             name="name"
             className="w-full border border-gray-300 rounded-lg p-2"
-            value={formData.name}
+            value={fetchAddress?.name || shippingAddress.name}
             onChange={handleChange}
             required
           />
@@ -63,7 +48,7 @@ const [submit,setSubmit] = useState(false)
               type="email"
               name="email"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value={formData.email}
+              value={shippingAddress.email}
               onChange={handleChange}
               required
             />
@@ -74,7 +59,7 @@ const [submit,setSubmit] = useState(false)
               type="tel"
               name="phone"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value={formData.phone}
+              value={shippingAddress.phone}
               onChange={handleChange}
               required
             />
@@ -87,7 +72,7 @@ const [submit,setSubmit] = useState(false)
             type="text"
             name="street"
             className="w-full border border-gray-300 rounded-lg p-2"
-            value={formData.street}
+            value={shippingAddress.street}
             onChange={handleChange}
             required
           />
@@ -100,7 +85,7 @@ const [submit,setSubmit] = useState(false)
               type="text"
               name="city"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value={formData.city}
+              value={shippingAddress.city}
               onChange={handleChange}
               required
             />
@@ -111,7 +96,7 @@ const [submit,setSubmit] = useState(false)
               type="text"
               name="state"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value={formData.state}
+              value={shippingAddress.state}
               onChange={handleChange}
               required
             />
@@ -119,10 +104,10 @@ const [submit,setSubmit] = useState(false)
           <div>
             <label className="block text-sm font-medium mb-1">Pin Code</label>
             <input
-              type="text"
-              name="zip"
+              type="number"
+              name="pin"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value={formData.zip}
+              value={shippingAddress.pin}
               onChange={handleChange}
               required
             />
@@ -135,15 +120,15 @@ const [submit,setSubmit] = useState(false)
             type="text"
             name="country"
             className="w-full border border-gray-300 rounded-lg p-2"
-            value={formData.country}
+            value={shippingAddress.country}
             onChange={handleChange}
             required
-          />
+          />  
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition cursor-pointer"
         >
           Submit & Payment
         </button>

@@ -12,7 +12,7 @@ cloudinary.config({
 
 const addProduct = async (req, res) => {
   try {
-    const { product_name, product_price, product_rating } = req.body;
+    const { product_name, product_price, product_rating,total_price,product_category, product_description} = req.body;
     const product_image = req.file ? req.file.filename : null; // Image upload
 
     // Upload image to Cloudinary
@@ -28,6 +28,9 @@ const addProduct = async (req, res) => {
       product_name,
       product_price,
       product_rating,
+      total_price,
+      product_category, 
+      product_description,
       public_id:cloudinaryResponse.public_id, // Store public_id for future deletions
       product_image:cloudinaryResponse.secure_url, // Store Cloudinary URL
     });
@@ -109,7 +112,7 @@ const deleteProduct = async (req, res) => {
 
     // Delete from database
     await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Slider deleted successfully" });
+    res.status(200).json({ message: "Product deleted successfully" });
 
 } catch (error) {
     res.status(500).json({ error: error.message });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ const SliderImage = () => {
   const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
   const [slides, setSlides] = useState([]);
+  const swiperRef = useRef();
 
   const fetchedData = async () => {
     try {
@@ -25,28 +26,36 @@ const SliderImage = () => {
 
   useEffect(() => {
     fetchedData();
-  }, []);
+    if (swiperRef.current) {
+      swiperRef.current.swiper.update();
+    }
+  }, [slides]);
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-2 md:mt-5">
       <Swiper
+        key={slides.length} // forces Swiper to re-render after data is available
         modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={50}
+        spaceBetween={20}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay:1000, disableOnInteraction: false }}
-        loop={true}
-        className=" shadow-lg "
+        autoplay={{ delay:2000, disableOnInteraction: false }}
+        loop={slides.length > 3}
+        className=" shadow-lg  "
+        ref={swiperRef}
+        
       >
         {slides.length > 0 ? (
           slides.map((slide, index) => (
-            <SwiperSlide key={index}>
-              <img
-                src={slide.image_url}
-                alt={`Slide ${index + 1}`}
-                className="w-full h-[130px] md:h-[250px] lg:h-[350px] object-fit "
-              />
+            <SwiperSlide key={index} >
+             <div className="w-full h-[150px] sm:h-[250px] md:h-[250px] lg:h-[270px] xl:h-[300px]">
+            <img
+              src={slide.image_url}
+              alt={`Slide ${index + 1}`}
+              className=" h-full object-cover"
+            />
+          </div>
             </SwiperSlide>
           ))
         ) : (
@@ -55,7 +64,7 @@ const SliderImage = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-          className="flex justify-center items-center h-[300px] text-gray-500 text-xl"
+          className="flex justify-center items-center text-2xl w-full h-[150px] sm:h-[250px] md:h-[250px] lg:h-[270px] xl:h-[300px]"
         >
           Loading slides...
         </motion.div>        )}
