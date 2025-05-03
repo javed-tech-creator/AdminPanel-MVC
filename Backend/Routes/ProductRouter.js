@@ -1,6 +1,6 @@
-const express = require("express");
-const { addProduct, getProducts, updateProduct, deleteProduct } = require("../Controller/ProductController");
-const multer = require("multer");
+import express from "express";
+import { addProduct, getProducts, updateProduct, deleteProduct } from "../Controller/ProductController.js";
+import multer from "multer";
 // const path = require('path')
 
 const router = express.Router();
@@ -18,4 +18,4 @@ router.get("/all", getProducts);
 router.put("/update/:id", upload.single("product_image"), updateProduct);
 router.delete("/delete/:id", deleteProduct);
 
-module.exports = router;
+export default router;

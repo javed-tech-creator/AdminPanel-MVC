@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const connectionDB = async()=>{
 if(!process.env.MONGO_URI){
@@ -13,4 +13,4 @@ try {
   console.error('Mongodb Connection Error :- ',error)
 }
 }
-module.exports= connectionDB
+export default connectionDB

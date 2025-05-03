@@ -1,8 +1,9 @@
-const {processPayment,getKey,paymentVarification} = require('../Controller/PaymentGetway');
-const express = require('express')
+import {processPayment,getKey,paymentVarification} from '../Controller/PaymentGetway.js';
+import express from 'express'
 const router = express.Router();
 
 router.post('/process',processPayment);
 router.get('/getkey',getKey);
 router.post('/varification',paymentVarification)
-module.exports = router
+
+export default router

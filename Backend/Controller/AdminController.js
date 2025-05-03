@@ -1,6 +1,6 @@
-const User = require('../Model/AdminModel')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+import User from '../Model/AdminModel.js';
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 //signup user api
 const signupUser = async(req, res) => {
   try {
@@ -61,4 +61,4 @@ const loginUser = async(req,res)=>{
 }
 
 
-module.exports = {signupUser,loginUser}
+export {signupUser,loginUser}

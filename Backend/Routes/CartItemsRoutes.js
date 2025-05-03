@@ -1,6 +1,5 @@
-const express = require('express')
-const {deleteCartitems,fetchedCartItems,addCartItems} = require('../Controller/CartItemsController')
-const multer = require('multer');
+import express from 'express';
+import {deleteCartitems,fetchedCartItems,addCartItems} from '../Controller/CartItemsController.js';
 
 const router = express.Router();
 
@@ -11,4 +10,4 @@ router.delete('/delete/:id',deleteCartitems)
 
 
 
-module.exports = router
+export default router

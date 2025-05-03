@@ -1,6 +1,6 @@
-const Product = require("../Model/ProductModel");
-const { v2: cloudinary } = require('cloudinary');
-const fs = require('fs')
+import Product from "../Model/ProductModel.js";
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs'
 
 // Configure Cloudinary
 cloudinary.config({ 
@@ -119,4 +119,4 @@ const deleteProduct = async (req, res) => {
 }
 };
 
-module.exports = {addProduct,getProducts,updateProduct,deleteProduct}
+export {addProduct,getProducts,updateProduct,deleteProduct}

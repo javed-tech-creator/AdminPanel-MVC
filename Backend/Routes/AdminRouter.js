@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express';
 const router = express.Router();
-const {signupUser,loginUser} = require('../Controller/AdminController')
+import {signupUser,loginUser} from '../Controller/AdminController.js';
 
 //signup api
 router.post('/signup',signupUser);
@@ -8,4 +8,4 @@ router.post('/signup',signupUser);
 // login api 
 router.post('/login',loginUser)
 
-module.exports = router
+export default router

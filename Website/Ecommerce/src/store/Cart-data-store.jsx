@@ -14,6 +14,7 @@ const [cartItem, setItemCart] = useState([]); // Holds cart data
 const [cartLoader, setCartLoader] = useState(false);
 const [progress,setProgress] = useState(false)
 const[paymentLoader,setPaymentLoader] = useState(false)
+const [authUser,setAuthUser]= useState(null) 
  const [shippingAddress, setShippingAddress] = useState({
     name: "",
     email: "",
@@ -24,6 +25,22 @@ const[paymentLoader,setPaymentLoader] = useState(false)
     pin: "",
     country: "",
   });
+
+
+  const fetchAuthUser = async()=>{
+    try {
+
+      const res = await axios.post(`${VITE_BACKEND_URL}/ecommerce/verify`, {}, {
+        withCredentials: true
+      })
+      if(res.status >=200 && res.status <= 300){
+        setAuthUser(res.data.user)
+      }
+    } catch (error) {
+    // console.log(error)
+    }
+
+  }
 
 
   const handleChange = (e) => {
@@ -76,6 +93,7 @@ rzp.open();
 
   useEffect(()=>{
     fetchedBagItem();
+    fetchAuthUser();
   },[])
 
   useEffect(() => {
@@ -164,7 +182,7 @@ rzp.open();
   return (
     <>
       <cartData.Provider
-        value={{ cartItem, fetchedBagItem, removeFromBag, cartLoader, setItemCart, totalPrice, discountPrice,shippingAddress,handleChange,increaseQuantity, decreaseQuantity,paymentLoader,progress,handleSubmit }}
+        value={{ cartItem, fetchedBagItem, removeFromBag, cartLoader, setItemCart, totalPrice, discountPrice,shippingAddress,handleChange,increaseQuantity, decreaseQuantity,paymentLoader,progress,handleSubmit,authUser,setAuthUser}}
       >
         {children}
       </cartData.Provider>

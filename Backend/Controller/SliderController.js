@@ -1,6 +1,6 @@
-const sliderimage = require('../Model/SliderModel')
-const { v2: cloudinary } = require('cloudinary');
-const fs = require('fs')
+import sliderimage from '../Model/SliderModel.js'
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 
 // Configure Cloudinary
 cloudinary.config({ 
@@ -118,4 +118,4 @@ const updateSlider = async (req, res) => {
 };
 
 
-module.exports ={saveSlider,getSlider,deleteSlider,updateSlider}
+export {saveSlider,getSlider,deleteSlider,updateSlider}

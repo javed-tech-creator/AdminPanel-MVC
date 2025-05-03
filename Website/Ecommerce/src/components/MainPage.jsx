@@ -12,7 +12,7 @@ const MainPage = () => {
   const VITE_BACKEND_URL = "https://adminpanel-mvc-backend.onrender.com";
 
   const [products, setProducts] = useState([]);
-  const { cartItem, fetchedBagItem } = useContext(cartData);
+  const { cartItem, fetchedBagItem,authUser,setFormType } = useContext(cartData);
   const [loader, setLoader] = useState(false);
   const filterCategory = useRef();
   const filterPrice = useRef();
@@ -40,6 +40,13 @@ const MainPage = () => {
   // Add item to the cart
   const handleCart = async (item) => {
     try {
+      if(!authUser){
+        toast.warning('Please log in to continue', {
+          position: "top-right",
+          autoClose: 3000,
+        });   
+        return;
+      }
       const existItem = cartItem.some((items) => items._id === item._id);
       if (existItem) {
         return  toast.warning('Item is Already in the Cart!', {

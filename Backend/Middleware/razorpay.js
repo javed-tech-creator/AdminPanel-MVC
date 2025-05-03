@@ -1,5 +1,5 @@
-const Razorpay= require('razorpay');
-const dotenv=require('dotenv')
+import Razorpay from 'razorpay';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -8,4 +8,4 @@ dotenv.config();
   key_secret: process.env.RAZORPAY_API_SECRET
 });
 
-module.exports = instance
+export default instance

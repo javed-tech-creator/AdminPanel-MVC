@@ -1,4 +1,4 @@
-const cartModel = require('../Model/CartItems');
+import cartModel from '../Model/CartItems.js'
 
 
 const addCartItems = async(req,res)=>{
@@ -53,4 +53,4 @@ const deleteCartitems = async(req,res)=>{
   }
 }
 
-module.exports = {deleteCartitems,fetchedCartItems,addCartItems}
+export {deleteCartitems,fetchedCartItems,addCartItems}

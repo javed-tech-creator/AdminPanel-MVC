@@ -1,15 +1,16 @@
-const mongoose = require('mongoose')
-const express = require('express')
-const cors = require('cors')
-const connectionDB = require('./Config/db')
-const dotenv = require('dotenv')
-const userRouter = require('./Routes/AdminRouter')
-const sliderRouter = require('./Routes/SliderRouter')
-const ProductRouter = require('./Routes/ProductRouter')
-const path = require('path')
-const CartItemsRouter = require('./Routes/CartItemsRoutes')
-const PaymentRouter = require('./Routes/PaymentRouter')
-const OrderRouter =require('./Routes/OrderRouter')
+
+import express  from  'express';
+import cors  from 'cors';
+import connectionDB  from './Config/db.js';
+import dotenv  from 'dotenv';
+import userRouter  from './Routes/AdminRouter.js';
+import sliderRouter  from  './Routes/SliderRouter.js';
+import ProductRouter  from './Routes/ProductRouter.js';
+import CartItemsRouter  from './Routes/CartItemsRoutes.js';
+import PaymentRouter  from './Routes/PaymentRouter.js';
+import OrderRouter from './Routes/OrderRouter.js';
+import UserRouter  from './Routes/UserRouter.js';
+import cookieParser from 'cookie-parser';
 // const User = require('./Model/User')
 dotenv.config();
 
@@ -18,10 +19,26 @@ const app = express();
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-app.use(cors());
-// app.use('/uploads',express.static(path.join(__dirname,"uploads")))
-// app.use('/products',express.static(path.join(__dirname,"product_uploads")))
+// Use cookie-parser middleware
+app.use(cookieParser());
 
+const allowedOrigins = [
+  'https://shopese.netlify.app',
+  'http://localhost:5173' // example: Vite dev server
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 //Mongodb connection
 connectionDB()
@@ -32,9 +49,9 @@ app.use('/product',ProductRouter)
 app.use('/cart',CartItemsRouter)
 app.use('/payment',PaymentRouter)
 app.use('/order',OrderRouter)
+app.use('/ecommerce',UserRouter)
 
-
-PORT = process.env.PORT || 3000 ;
+const PORT =process.env.PORT || 3000 ;
 
 app.listen(PORT,()=>{
   console.log(`Your Server is Running on http://localhost:${PORT}`)

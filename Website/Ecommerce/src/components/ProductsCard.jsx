@@ -9,7 +9,7 @@ const ProductsCard = ({ products, handleCart, loader }) => {
       <div id="product" className=" mx-auto px-2">
         {!loader && (
            <div className="flex justify-center items-center p-5 h-[300px]">
-           <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-4 border-dashed rounded-full animate-spin border-black"></div>
+           <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-4 border-dashed rounded-full animate-spin border-gray-500"></div>
            </div>
         )}
 

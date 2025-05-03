@@ -1,8 +1,8 @@
-const {saveSlider,getSlider,deleteSlider,updateSlider} = require('../Controller/SliderController')
-const express = require('express')
+import {saveSlider,getSlider,deleteSlider,updateSlider} from '../Controller/SliderController.js';
+import express from 'express';
 const router = express.Router();
-const multer = require('multer')
-const path = require('path')
+import multer from 'multer';
+import path from 'path';
 
 const storage = multer.diskStorage({
   // destination:(req,file,cb)=>{
@@ -21,5 +21,4 @@ router.get('/get',getSlider)
 router.delete('/delete/:id',deleteSlider)
 router.put('/update/:id',upload.single('image_url'),updateSlider)
 
-
-module.exports = router
+export default router

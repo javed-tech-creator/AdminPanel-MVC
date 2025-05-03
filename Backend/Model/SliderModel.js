@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const slideSchema = new mongoose.Schema({
   image_title:{
@@ -16,4 +16,4 @@ const slideSchema = new mongoose.Schema({
 
 const sliderimage = mongoose.model('sliderimage',slideSchema)
 
-module.exports = sliderimage
+export default sliderimage
