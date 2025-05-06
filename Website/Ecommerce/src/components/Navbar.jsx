@@ -7,8 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = ({ cartItem }) => {
-  const VITE_BACKEND_URL ="https://adminpanel-mvc-backend.onrender.com";
-  
+  const VITE_BACKEND_URL = "https://adminpanel-mvc-backend.onrender.com";
 
   const { authUser, setAuthUser } = useContext(cartData);
 
@@ -24,24 +23,24 @@ const Navbar = ({ cartItem }) => {
         `${VITE_BACKEND_URL}/ecommerce/logout`,
         {}, // no body
         {
-          withCredentials: true // correct placement
+          withCredentials: true, // correct placement
         }
       );
-  
+
       if (res.status >= 200 && res.status <= 300) {
         setAuthUser(false);
-        toast.success('Logout Successful', {
+        toast.success("Logout Successful", {
           autoClose: 1000,
+          position: "top-center",
         });
       }
     } catch (error) {
       console.error("Logout error:", error);
-      toast.error('Logout Failed', {
+      toast.error("Logout Failed", {
         autoClose: 1000,
       });
     }
   };
-  
 
   const closeForm = () => {
     setShowForm(false);
@@ -71,7 +70,7 @@ const Navbar = ({ cartItem }) => {
             <li>
               <a
                 href="#product"
-                className="text-white no-underline hover:text-blue-500 hover:border-b-2 hover:border-orange-500  py-3  "
+                className="text-white no-underline hover:text-blue-500 hover:border-b-2 hover:border-orange-500  py-3"
               >
                 Products
               </a>
@@ -108,7 +107,7 @@ const Navbar = ({ cartItem }) => {
             )}
             {!authUser && (
               <button
-                className="text-white flex items-center justify-center cursor-pointer  hover:text-blue-500 gap-1"
+                className="text-white flex items-center justify-center cursor-pointer   gap-1 border-2 border-white px-2 py-1 hover:bg-green-400"
                 onClick={login}
               >
                 <LogIn className="w-4 h-4" />
@@ -118,11 +117,11 @@ const Navbar = ({ cartItem }) => {
 
             {authUser && (
               <button
-                className="text-white flex items-center justify-center cursor-pointer  hover:text-blue-500 gap-1"
+                className="text-white flex items-center justify-center cursor-pointer  hover:bg-red-400 gap-1 border-1 p-1 group"
                 onClick={logout}
-              >               
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="hidden md:block">Logout</span>
               </button>
             )}
           </div>

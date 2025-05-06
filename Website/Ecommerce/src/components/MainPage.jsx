@@ -163,7 +163,7 @@ const filteredProducts = products.filter((item) => {
         Products
       </h2>
      <div>
-      <select onChange={handleCategoryFilter} ref={filterCategory} className=" text-sm md:font-bold md:text-md outline-none bg-gray-200 rounded-3xl py-0 px-0 md:px-3 md:py-1 md:border-1" >
+      <select onChange={handleCategoryFilter} ref={filterCategory} className=" text-sm md:font-bold md:text-md outline-none bg-gray-200 rounded-3xl py-1 px-0.5 md:px-3 md:py-1 md:border-1 " >
         <option value="" >Category</option>
         {category.map((item,idx)=>(
         <option key={idx} value={item.category}>{item.category}</option>
@@ -172,7 +172,7 @@ const filteredProducts = products.filter((item) => {
      </div>
      <div>
       
-      <select onChange={handlePriceFilter} ref={filterPrice} className=" text-sm md:font-bold md:text-md outline-none bg-gray-200 rounded-3xl py-0 px-0 md:px-3 md:py-1 md:border-1" >
+      <select onChange={handlePriceFilter} ref={filterPrice} className=" text-sm md:font-bold md:text-md outline-none bg-gray-200 rounded-3xl py-1 px-0.5 md:px-3 md:py-1 md:border-1" >
         <option value="" >Price-Range</option>
         {Price.map((item,idx)=>(
         <option key={idx} value={item.price}>{item.price}</option>

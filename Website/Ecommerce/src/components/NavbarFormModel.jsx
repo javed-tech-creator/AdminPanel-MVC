@@ -42,7 +42,7 @@ const NavbarFormModel = ({ closeForm, setShowForm }) => {
 
         if (res.status >= 200 && res.status <= 300) {
           setAuthUser(res.data);
-          toast.success("Login Successful", { autoClose: 1000 });
+          toast.success("Login Successful", { autoClose:1000 , position:"top-center"});
           setLoginForm({ email: "", password: "" });
           setShowForm(false);
         }
@@ -136,7 +136,7 @@ const NavbarFormModel = ({ closeForm, setShowForm }) => {
                   Loading...
                 </>
               ) : (
-                "Sign in"
+                "Sign up"
               )}
             </button>
 
