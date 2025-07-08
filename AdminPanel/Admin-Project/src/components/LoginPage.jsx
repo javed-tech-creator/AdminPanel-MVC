@@ -84,7 +84,7 @@ try {
      </label>
    
    
-     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Submit</button>
+     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded cursor-pointer">Submit</button>
    </form>
    <p className="text-sm text-gray-600 text-center mt-3">
                Don't have an account? <Link to="/" className="text-blue-600 hover:underline ">Sign Up</Link>

@@ -6,7 +6,7 @@ import axios from 'axios';
 const ProductDetail = () => {
 
   // https://adminpanel-mvc-backend.onrender.com
-  const VITE_BACKEND_URL= "http://localhost:3000";
+  const VITE_BACKEND_URL= "https://adminpanel-mvc-backend.onrender.com";
 
   const [productForm,setProductForm] = useState(false)
   const [formData,setFormData] = useState({
