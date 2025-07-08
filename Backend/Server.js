@@ -24,6 +24,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'https://shopese.netlify.app',
+  'https://shopeaseadmin.netlify.app',
   'http://localhost:5173' // example: Vite dev server
 ];
 
